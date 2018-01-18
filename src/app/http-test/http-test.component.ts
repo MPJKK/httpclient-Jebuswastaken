@@ -9,6 +9,8 @@ import {HttpClient} from '@angular/common/http';
 export class HttpTestComponent implements OnInit {
 
     tulos: string = 'Moro';
+    apitulokset;
+    apiosoite = 'https://api.hel.fi/linkedevents/v1';
 
     constructor(private http: HttpClient) {
     }
@@ -24,8 +26,20 @@ export class HttpTestComponent implements OnInit {
         });
     }
 
+    getFromApi() {
+        interface Eventinterface {
+            file: any;
+        }
+
+        this.http.get(this.apiosoite + '/event/?start=today').subscribe((data) => {
+            console.log(data);
+            this.apitulokset = data.data;
+        });
+    }
+
     ngOnInit() {
         this.getJson();
+        this.getFromApi();
     }
 
 }
